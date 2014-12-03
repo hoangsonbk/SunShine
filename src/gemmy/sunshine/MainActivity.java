@@ -1,5 +1,11 @@
 package gemmy.sunshine;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new ForecastFragment()).commit();
 		}
 	}
 
@@ -48,39 +55,4 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,	false);
-			
-			String[] forecastArray = {
-					"Today - Sunny -28/29",
-					"Tomorrow - Cloudy -26/29",
-					"Wed - Shower -25/27",
-					"Thu - Heavy Rain - 25/26",
-					"Fri - Sunny - 28/30",
-					"Sat - Foggy - 26/27",
-					"Sun - Sunny - 27/29"
-			};
-			List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
-			ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(
-					getActivity(), //Current context, this fragment's parent activity
-					R.layout.list_item_forecast,
-					R.id.list_item_forecast_textview,
-					weekForecast);
-			
-			ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-			listView.setAdapter(mForecastAdapter);
-
-			return rootView;
-		}
-	}
 }
