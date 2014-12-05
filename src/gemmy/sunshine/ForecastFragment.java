@@ -9,8 +9,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.json.JSONException;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,8 +28,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -67,6 +73,7 @@ public class ForecastFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,	false);
+		Context context = getActivity(); //Current context, this fragment's parent activity
 		
 		String[] forecastArray = {
 				"Today - Sunny -28/29",
@@ -79,12 +86,25 @@ public class ForecastFragment extends Fragment {
 		};
 		List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 		mForecastAdapter = new ArrayAdapter<String>(
-				getActivity(), //Current context, this fragment's parent activity
+				context, //Current context, this fragment's parent activity
 				R.layout.list_item_forecast,
 				R.id.list_item_forecast_textview,
 				weekForecast);
 		ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
 		listView.setAdapter(mForecastAdapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				String forecast = mForecastAdapter.getItem(position);
+				Toast.makeText(getActivity(), forecast, Toast.LENGTH_SHORT).show();
+				Intent intentToDetailAct = new Intent (getActivity(), DetailActivity.class);
+				intentToDetailAct.putExtra(Intent.EXTRA_TEXT, forecast);
+				startActivity(intentToDetailAct);
+			}
+			
+		});
 		return rootView;
 	}
 	
