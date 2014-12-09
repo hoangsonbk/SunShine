@@ -15,9 +15,11 @@ import org.json.JSONException;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -39,6 +41,7 @@ import android.widget.Toast;
 public class ForecastFragment extends Fragment {
 
 	private ArrayAdapter<String> mForecastAdapter;
+	private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 	
 	public ForecastFragment() {
 	}
@@ -62,11 +65,25 @@ public class ForecastFragment extends Fragment {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_refresh) {
-			FetchWeatherTask weatherTask = new FetchWeatherTask();
-			weatherTask.execute("Ho chi minh");
+			updateWeather();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void updateWeather(){
+		FetchWeatherTask weatherTask = new FetchWeatherTask();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String location = prefs.getString(getString(R.string.pref_location_key), "Ho chi minh");
+		weatherTask.execute(location);
+	}
+	
+	
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		updateWeather();
 	}
 	
 	@Override
@@ -111,8 +128,22 @@ public class ForecastFragment extends Fragment {
 	@SuppressLint("NewApi")
 	public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
 		
-		private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
-
+		private String formatHighAndLow(double high, double low){
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			String unitType = sharedPref.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_metric));
+			if (unitType.equals(R.string.pref_unit_imperial)){
+				high = (high * 1.8) + 32;
+				low = (low * 1.8) + 32;
+			} else if(!unitType.equals(R.string.pref_unit_imperial)){
+				Log.d(LOG_TAG,"Unit type not found " + unitType);
+			}
+			
+			long roundHigh = Math.round(high);
+			long roundLow = Math.round(low);
+			String result = roundHigh + "/" + roundLow;
+			return result;
+		}
+		
 		@Override
 		protected String[] doInBackground(String...param) {
 			// These two need to be declared outside the try/catch
