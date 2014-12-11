@@ -8,8 +8,8 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_setting">Setting</string>
     <string name="pref_location_key">Locaion</string>
-    <string name="pref_location_label">location</string>
-    <string name="pref_unit_label">unit</string>
+    <string name="pref_location_label">Location</string>
+    <string name="pref_unit_label">Unit</string>
     <string name="pref_unit_key">Unit</string>
     <string name="pref_unit_metric">Metric</string>
     <string name="pref_unit_imperial">Imperial</string>

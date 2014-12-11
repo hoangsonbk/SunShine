@@ -83,6 +83,7 @@ public class ForecastFragment extends Fragment {
 	@Override
 	public void onStart(){
 		super.onStart();
+		Log.v(LOG_TAG, "Forecast Fragment onStart");
 		updateWeather();
 	}
 	
@@ -126,24 +127,7 @@ public class ForecastFragment extends Fragment {
 	}
 	
 	@SuppressLint("NewApi")
-	public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
-		
-		private String formatHighAndLow(double high, double low){
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			String unitType = sharedPref.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_metric));
-			if (unitType.equals(R.string.pref_unit_imperial)){
-				high = (high * 1.8) + 32;
-				low = (low * 1.8) + 32;
-			} else if(!unitType.equals(R.string.pref_unit_imperial)){
-				Log.d(LOG_TAG,"Unit type not found " + unitType);
-			}
-			
-			long roundHigh = Math.round(high);
-			long roundLow = Math.round(low);
-			String result = roundHigh + "/" + roundLow;
-			return result;
-		}
-		
+	public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{		
 		@Override
 		protected String[] doInBackground(String...param) {
 			// These two need to be declared outside the try/catch
@@ -220,8 +204,11 @@ public class ForecastFragment extends Fragment {
 			    }
 			}
 		    String [] weatherData = null;
+		    
+		    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			String unitType = sharedPref.getString(getString(R.string.pref_unit_key), getString(R.string.pref_unit_metric));
 		    try {
-				weatherData = ParseJSONdata.getWeatherDataFromJson(forecastJsonStr, days);
+				weatherData = ParseJSONdata.getWeatherDataFromJson(forecastJsonStr, days, unitType);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

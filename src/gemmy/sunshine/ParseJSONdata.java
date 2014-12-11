@@ -7,6 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
 public class ParseJSONdata {
 	/* The date/time conversion code is going to be moved outside the asynctask later,
 	 * so for convenience we're breaking it out into its own method now.
@@ -22,13 +26,15 @@ public class ParseJSONdata {
 	/**
 	 * Prepare the weather high/lows for presentation.
 	 */
-	private static String formatHighLows(double high, double low) {
-	    // For presentation, assume the user doesn't care about tenths of a degree.
-	    long roundedHigh = Math.round(high);
-	    long roundedLow = Math.round(low);
-	 
-	    String highLowStr = roundedHigh + "/" + roundedLow;
-	    return highLowStr;
+	private static String formatHighLows(double high, double low, String unitType) {
+		if (unitType.equals(R.string.pref_unit_imperial)){
+			high = (high * 1.8) + 32;
+			low = (low * 1.8) + 32;
+		}
+		long roundHigh = Math.round(high);
+		long roundLow = Math.round(low);
+		String result = roundHigh + "/" + roundLow;
+		return result;
 	}
 	 
 	/**
@@ -38,7 +44,7 @@ public class ParseJSONdata {
 	 * Fortunately parsing is easy:  constructor takes the JSON string and converts it
 	 * into an Object hierarchy for us.
 	 */
-	public static String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
+	public static String[] getWeatherDataFromJson(String forecastJsonStr, int numDays, String unitType)
 	        throws JSONException {
 	 
 	    // These are the names of the JSON objects that need to be extracted.
@@ -79,7 +85,7 @@ public class ParseJSONdata {
 	        double high = temperatureObject.getDouble(OWM_MAX);
 	        double low = temperatureObject.getDouble(OWM_MIN);
 	 
-	        highAndLow = formatHighLows(high, low);
+	        highAndLow = formatHighLows(high, low, unitType);
 	        resultStrs[i] = day + " - " + description + " - " + highAndLow;
 	    }
 	 
