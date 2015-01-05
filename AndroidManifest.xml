@@ -9,6 +9,10 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="21" />
+    
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+    	android:targetPackage="gemmy.sunshine"/>
+    
 
     <application
         android:allowBackup="true"
@@ -40,6 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="gemmy.sunshine.MainActivity" />
         </activity>
+        <uses-library android:name="android.test.runner" />
     </application>
 
 </manifest>
