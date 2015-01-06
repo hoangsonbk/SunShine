@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package main.java.data;
+package gemmy.sunshine.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import main.java.data.WeatherContract.LocationEntry;
-import main.java.data.WeatherContract.WeatherEntry;
+import gemmy.sunshine.data.WeatherContract.LocationEntry;
+import gemmy.sunshine.data.WeatherContract.WeatherEntry;
 
 /**
  * Manages a local database for weather data.

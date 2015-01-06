@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidTest.java.test;
+package gemmy.sunshine.test;
 
 import android.test.suitebuilder.TestSuiteBuilder;
 

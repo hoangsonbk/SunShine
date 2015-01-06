@@ -44,6 +44,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="gemmy.sunshine.MainActivity" />
         </activity>
+        <provider 
+            android:authorities="gemmy.sunshine"
+            android:name=".data.WeatherProvider"/>
         <uses-library android:name="android.test.runner" />
     </application>
 

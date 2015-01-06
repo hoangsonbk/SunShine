@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidTest.java.test;
+package gemmy.sunshine.test;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
-import main.java.data.WeatherContract.LocationEntry;
-import main.java.data.WeatherContract.WeatherEntry;
-import main.java.data.WeatherDbHelper;
+import gemmy.sunshine.data.WeatherContract.LocationEntry;
+import gemmy.sunshine.data.WeatherContract.WeatherEntry;
+import gemmy.sunshine.data.WeatherDbHelper;
 import java.util.Map;
 import java.util.Set;
 
