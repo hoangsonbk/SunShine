@@ -44,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -128,14 +129,22 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 	public void onStart(){
 		super.onStart();
 		Log.v(LOG_TAG, "Forecast Fragment onStart");
-		updateWeather();
+		//updateWeather();
 	}
+	
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mLocation != null && !mLocation.equals(Utility.getPreferredLocation(getActivity()))) {
+            getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
+        }
+    }
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,	false);
-		Context context = getActivity(); //Current context, this fragment's parent activity
+		//Context context = getActivity(); //Current context, this fragment's parent activity
 		
 		String[] forecastArray = {
 				"Today - Sunny -28/29",
@@ -146,6 +155,9 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 				"Sat - Foggy - 26/27",
 				"Sun - Sunny - 27/29"
 		};
+		
+		
+		  
 		List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 		mForecastAdapter = new SimpleCursorAdapter(
                 getActivity(),
@@ -166,6 +178,28 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
                 0
         );
 		
+		  mForecastAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+	            @Override
+	            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+	                boolean isMetric = Utility.isMetric(getActivity());
+	                switch (columnIndex) {
+	                    case COL_WEATHER_MAX_TEMP:
+	                    case COL_WEATHER_MIN_TEMP: {
+	                        // we have to do some formatting and possibly a conversion
+	                        ((TextView) view).setText(Utility.formatTemperature(
+	                                cursor.getDouble(columnIndex), isMetric));
+	                        return true;
+	                    }
+	                    case COL_WEATHER_DATE: {
+	                        String dateString = cursor.getString(columnIndex);
+	                        TextView dateView = (TextView) view;
+	                        dateView.setText(Utility.formatDate(dateString));
+	                        return true;
+	                    }
+	                }
+	                return false;
+	            }
+	        });
 		/* OLD CODE USING ARRAY ADAPTER
 		 mForecastAdapter = new ArrayAdapter<String>(
 				getActivity(),
@@ -186,6 +220,12 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 				Intent intentToDetailAct = new Intent (getActivity(), DetailActivity.class);
 				intentToDetailAct.putExtra(Intent.EXTRA_TEXT, forecast);
 				startActivity(intentToDetailAct);*/
+				
+				 Cursor cursor = mForecastAdapter.getCursor();
+				 if (cursor != null && cursor.moveToPosition(position)) {
+					 Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(DetailActivity.DATE_KEY, cursor.getString(COL_WEATHER_DATE));
+					 startActivity(intent);
+					 }
 			}
 			
 		});

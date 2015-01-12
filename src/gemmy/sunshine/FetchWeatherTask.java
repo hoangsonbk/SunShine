@@ -100,7 +100,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
 
         // First, check if the location with this city name exists in the db
         Cursor cursor = mContext.getContentResolver().query(
-                LocationEntry.CONTENT_URI,
+                LocationEntry.CONTENT_URI, //ex: content://gemmy.sunshine/location/
                 new String[]{LocationEntry._ID},
                 LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
                 new String[]{locationSetting},
