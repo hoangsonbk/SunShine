@@ -62,6 +62,8 @@ public class WeatherContract {
 
     /**
      * Converts Date class to a string representation, used for easy comparison and database lookup.
+     * Because the API returns a unix timestamp (measured in seconds),
+     * it must be converted to milliseconds in order to be converted to valid date.
      * @param date The input date
      * @return a DB-friendly representation of the date, using the format defined in DATE_FORMAT.
      */

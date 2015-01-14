@@ -51,7 +51,7 @@ import android.widget.TextView;
  */
 public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
-	private SimpleCursorAdapter mForecastAdapter;
+	private ForecastAdapter mForecastAdapter;
 	private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 	
     private static final int FORECAST_LOADER = 0;
@@ -159,7 +159,7 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 		
 		  
 		List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
-		mForecastAdapter = new SimpleCursorAdapter(
+		/*mForecastAdapter = new SimpleCursorAdapter(
                 getActivity(),
                 R.layout.list_item_forecast,
                 null,
@@ -176,9 +176,14 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
                         R.id.list_item_low_textview
                 },
                 0
+        );*/
+		mForecastAdapter = new ForecastAdapter(
+                getActivity(),
+                null,
+                0
         );
 		
-		  mForecastAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+		 /* mForecastAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 	            @Override
 	            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 	                boolean isMetric = Utility.isMetric(getActivity());
@@ -199,7 +204,7 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 	                }
 	                return false;
 	            }
-	        });
+	        });*/
 		/* OLD CODE USING ARRAY ADAPTER
 		 mForecastAdapter = new ArrayAdapter<String>(
 				getActivity(),
