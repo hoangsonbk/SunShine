@@ -1,45 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    android:orientation="horizontal"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent" >
+    
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical"
+	    android:orientation="vertical"
+	    android:padding="16dp" >
+	    
+	    <TextView
+	        android:id="@+id/detail_day_textview"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="Tomorrow" />
+	
+	    <TextView
+	        android:id="@+id/detail_date_textview"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="January 16" />
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_date_textview" />
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text=" - " />
+	            <TextView
+	                android:layout_width="wrap_content"
+		        	android:layout_height="match_parent"
+		        	android:id="@+id/detail_high_textview"
+		        	android:text="29" />		
+		   		<TextView
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="match_parent"
+		        	android:id="@+id/detail_low_textview" 
+		        	android:text="27"/>	 
+	       </LinearLayout>
+	       
+	       <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+		   		
+	         	<ImageView
+	         	    android:id="@+id/detail_icon"
+	         	    android:layout_width="wrap_content"
+	         	    android:layout_height="wrap_content"
+	         	    android:layout_gravity="right"
+	         	    android:layout_weight="0"
+	         	    android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_forecast_textview" />
+		        <TextView
+		            android:id="@+id/detail_forecast_textview"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_gravity="right"
+		            android:text="Clear" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text=" - " />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_high_textview" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="/" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_low_textview" />
-
-</LinearLayout>
+	       </LinearLayout>
+	       
+	   </LinearLayout>
+	   <TextView
+	       android:layout_width="wrap_content"
+	       android:layout_height="match_parent"
+	       android:id="@+id/detail_humidity_textview"
+	       android:text="48%" />
+	   <TextView
+	       android:layout_width="wrap_content"
+	       android:layout_height="match_parent"
+	       android:id="@+id/detail_wind_textview"
+	       android:text="6 k/m NW" />
+	   <TextView
+	       android:layout_width="wrap_content"
+	       android:layout_height="match_parent"
+	       android:id="@+id/detail_pressuretextview"
+	       android:text="1014" />	
+	</LinearLayout>
+</ScrollView>
