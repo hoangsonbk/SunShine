@@ -1,8 +1,10 @@
 package gemmy.sunshine;
  
+import gemmy.sunshine.data.WeatherContract.WeatherEntry;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +61,30 @@ public class ForecastAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
     	
     	ViewHolder viewHolder = new ViewHolder(view);
+    	
+        int viewType = getItemViewType(cursor.getPosition());
+        switch (viewType) {
+            case VIEW_TYPE_TODAY: {
+            	Log.v("xsoting", "TODAYYYYYYYYYYYYY");
+            	Log.v("xsoting", Integer.toString(cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                // Get weather icon
+                viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(
+                        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+            case VIEW_TYPE_FUTURE_DAY: {
+                // Get weather icon
+                viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(
+                        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+        }
  
         // Read weather icon ID from cursor
-        int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+        //int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
         // Use placeholder image for now - WASTE RESOURCE
         //ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-        viewHolder.iconView.setImageResource(R.drawable.ic_launcher);
+        //viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
  
         // Read date from cursor
         String dateString = cursor.getString(ForecastFragment.COL_WEATHER_DATE);
@@ -91,7 +111,7 @@ public class ForecastAdapter extends CursorAdapter {
         float low = cursor.getFloat(ForecastFragment.COL_WEATHER_MIN_TEMP);
         // TODO: Find TextView and set formatted low temperature on it
         //TextView lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
-        viewHolder.lowTempView.setText(Utility.formatTemperature(context, high, isMetric));
+        viewHolder.lowTempView.setText(Utility.formatTemperature(context, low, isMetric));
     }
     
     /**

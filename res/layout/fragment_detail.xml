@@ -57,8 +57,7 @@
 	         	    android:layout_width="wrap_content"
 	         	    android:layout_height="wrap_content"
 	         	    android:layout_gravity="right"
-	         	    android:layout_weight="0"
-	         	    android:src="@drawable/ic_launcher" />
+	         	    android:layout_weight="0" />
 
 		        <TextView
 		            android:id="@+id/detail_forecast_textview"
